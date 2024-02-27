@@ -1,0 +1,412 @@
+header {
+    /*גורם לheader לא לזוז*/
+    position: sticky;
+    top: 0;
+    /*גורם לheader להיות צמוד למעלה של הדף*/
+    background-color: white;
+    z-index: 10;
+    /*גורם שלא יעלו על ה header*/
+}
+
+/*הורדת הקו התחתי מכל הלינקים באתר*/
+a {
+    text-decoration: none;
+}
+
+/*עיצוב לiconim*/
+header .headPage {
+    width: 8.5vw;
+    margin-right: 90vw;
+    /*מרחק מימין*/
+    margin-top: 1.5vh;
+    /*מרחק מלמעלה*/
+}
+
+/*  גודל תמונת ה-icon*/
+.icon img {
+    width: 2.4vw;
+}
+
+/* העיצוב של הלינקים העליונים */
+.headLink a {
+    color: #0081c6;
+    /*צבע הכתב  של הלינק*/
+    z-index: 9;
+    font-family: Guttman Haim;
+    /*סוג הכתב של הלינקים*/
+    margin: 2vh;
+    /*גודל המרחק בין לינק ללינק*/
+    position: sticky;
+    top: 0;
+}
+
+/*עיצוב למיקום הלוגו*/
+.headLink ul {
+    display: inline-block;
+    /*גורם ללוגו להיות מסודר בשורה*/
+}
+
+/*עיצוב למיקום הלינקים*/
+.headLink li {
+    display: inline-block;
+    /*גורם ללינק להיות מסודר בשורה*/
+}
+
+/*עיצוב לכל הnav*/
+nav {
+    justify-content: center;
+    display: flex;
+    /*גורם לכל הלינקים להיות מסודרים בשורה אחת*/
+
+}
+
+/*עיצוב של גודל הלוגו*/
+.headLink img {
+    height: 10vh;
+}
+
+/*עיצוב לרקע של הלינקים העגולים*/
+.rolLinkim {
+    background-color: #0081c6;
+    padding: 1.38vw 4.95vw;
+    height: 18vh;
+
+}
+
+/*עיצוב ללינקים התמונות של הלינקים העגולים*/
+.rolLink img {
+    height: 13vh;
+    transition: all 0.5s;
+}
+
+/*עיצוב ללינקים העגולים*/
+.rolLink {
+    margin: 1.4vw;
+}
+
+/*מה קורה בשעוברים על הלינקים העגולים*/
+.rolLink a img:hover {
+    transform: scale(1.2);
+    /*כמה יגדל הלינק*/
+}
+
+/*לכפתור של הדיו הנפתח במסך קטן*/
+.buttonNone {
+    /*שלא יראו את דיו זה*/
+    display: none;
+    padding-left: 10vw;
+}
+.nagish{
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    z-index: 11;
+    top: 91vh;
+    left: 1vw;
+}
+.nagish img{
+    background-color:#0081c6 ;
+    height: 100%;
+    width: 100%;
+    border-radius: 45%;
+}
+.nagish{
+    transition: all 0.5s;
+}
+.nagish:hover{
+    transform: scale(1.2);
+}
+
+/*רספונסיביות*/
+@media (max-width: 1350px) {
+
+    /*שינוי הלינקים העגולים*/
+    .rolLink img {
+        height: 10vh;
+    }
+
+    /*שינוי הלינקים העגולים*/
+    .rolLink {
+        margin: 1vw;
+    }
+
+    /*שינוי של הרקע של הלינקים העגולים*/
+    .rolLinkim {
+        height: 19vh;
+    }
+}
+
+@media (max-width: 1024px) {
+
+    /*שינוי כללי*/
+    body {
+        font-size: 4.67vw;
+        line-height: 1.1;
+    }
+
+    /*לגרום לאיקונים להשאר בשורה*/
+    .iconim {
+        display: flex;
+    }
+
+    /*שינוי הלינקים העגולים*/
+    .rolLinkim {
+        height: 35vh;
+    }
+
+    /*שינוי הלינקים העגולים*/
+    .rolLink img {
+        height: 18vw;
+    }
+
+    /*גורם לחלק מהלינקים שלא יראו אותם*/
+    .displayNon {
+        display: none;
+    }
+
+    /*שינוי הלינקים העגולים*/
+    .headLink img {
+        height: 15vw;
+    }
+
+    /*שינוי הלינקים העגולים*/
+    .icon img {
+        width: 6vw;
+    }
+
+    /*גורם ללחצן שנפתח במסך קטן להשתנות*/
+    input[type="checkbox"] {
+        content: url(pas.png);
+        appearance: none;
+        width: 150px;
+        height: 150px;
+    }
+    .buttonNone {
+        display: block;
+    }
+
+    /*גורם ללחצן שנפתח במסך קטן להשתנות*/
+    input[type="checkbox"]:checked {
+        content: url(eix.png);
+    }
+}
+
+@media (max-width: 600px) {
+    .rolLinkim {
+        height: 13vh;
+    }
+
+    .rolLinkim img {
+        height: 10vh;
+    }
+
+    .footerMenu {
+        display: block !important;
+        margin-top: 0;
+    }
+
+    .footer {
+        display: block !important;
+        text-align: center;
+    }
+
+    .logoFooter {
+        margin-left: -8vw;
+    }
+
+    .linkOfInstosh {
+        height: 6.23vh !important;
+        width: 29vw !important;
+        font-size: 4.67vw !important;
+        margin-left: -27px;
+    }
+
+    .footerMenu li a {
+        font-size: 3.1vw !important;
+    }
+
+    .footerMenu li a {
+        margin: 3vh !important;
+
+    }
+
+    .titleInstosh h2 {
+        font-size: 8.5vw !important;
+        padding: 2.8vw 5.34vw 1.6vw !important;
+        width: 92vw !important;
+        margin-top: 7vh !important;
+        margin-left: -24vw;
+    }
+
+    .instosh {
+        height: 40vh !important;
+    }
+
+    .titlejob h2 {
+        font-size: 10vw !important;
+        margin-top: 7vh !important;
+
+    }
+
+}
+
+/* גודל הלחצן שנפתח במסך קטן*/
+
+.buttonNone input {
+    height: 6vh;
+    width: 8vw;
+}
+
+/*גורם לתפריט נפתח שלא יראו אותו*/
+#navMedia {
+    display: none;
+}
+
+/*עיצוב התפריט הנפתח*/
+.navMedia li {
+    background-color: #0081c6;
+    margin-bottom: 2px;
+    color: white;
+}
+
+/*עיצוב התפריט הנפתח*/
+.navMedia li a {
+    color: white;
+}
+
+.footer {
+    width: 47%;
+    min-height: 12.24vw;
+    padding: 3.39vw 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 auto;
+}
+
+.footerMenu {
+    display: flex;
+}
+
+.footerMenu li {
+    margin-left: 1.35vw;
+    color: #888d8e;
+}
+
+.footerMenu li a {
+    font-size: 1.1vw;
+    color: rgb(97, 97, 97);
+}
+
+li {
+    list-style: none;
+}
+
+.logoFooter img {
+    height: 4vw;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+input,
+p,
+ul,
+li {
+    direction: rtl;
+}
+
+.instosh {
+    position: relative;
+    height: 60vh;
+}
+
+.instosh .textInInstosh {
+    text-align: center;
+
+}
+
+.instosh .img img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 8;
+}
+
+.titleInstosh {
+    padding: 1.04vw 2.34vw 0.68vw;
+    padding-bottom: 0;
+    width: 50%;
+    margin: auto;
+}
+
+.titleInstosh h2 {
+    font-size: 3.8vw;
+    color: #2e344b;
+    background: white;
+    padding: 1.04vw 2.34vw 0.68vw;
+    position: relative;
+    z-index: 8;
+    margin-bottom: 0;
+}
+
+.textInInstosh {
+    position: absolute;
+    z-index: 9;
+    size: 100%;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+
+}
+
+.linkOfInstosh {
+    color: white;
+    font-family: 'fbmetali', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ce047d;
+    border: 2px solid #ce047d;
+    height: 3.23vw;
+    width: 13.8vw;
+    font-size: 1.67vw;
+}
+
+.llink {
+    width: 12%;
+    margin: auto;
+}
+
+.linkOfInstosh:hover {
+    background: white;
+    color: #ce047d;
+}
+
+.job {
+    background-color: #0081c6;
+    height: 20vh;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.titlejob h2 {
+    font-size: 3vw;
+    color: white;
+    padding: 1.04vw 2.34vw 0.68vw;
+    position: relative;
+    z-index: 8;
+    font-family: 'fbmetali', sans-serif;
+    margin: auto;
+}
+
+.textInInstosh {
+    padding: 5.73vw 0;
+
+}

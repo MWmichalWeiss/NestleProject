@@ -1,0 +1,171 @@
+.mainSerch .titleMotagimContainer {
+    margin-bottom: 1.77vw;
+}
+
+.titleMotagim {
+    font-size: 164.3%;
+    color: #0081c6;
+    font-weight: 500;
+    line-height: .7;
+}
+
+.containerImgLink .textImgLink img {
+    padding: 0;
+    margin: 0 1.04vw;
+    height: 13vh;
+}
+
+.mainSerch {
+    text-align: center;
+    width: 95vw;
+}
+
+.containerImgLink {
+    display: flex;
+    justify-content: center;
+
+}
+
+.textImgLink .text {
+    margin-top: 1.15vw;
+    color: #0081c6;
+    transition: .3s;
+    font-weight: 500;
+    font-family: Guttman Frank;
+    font-size: 2vw;
+
+}
+
+.textImgLink {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    border: none;
+    margin: 0 1.04vw;
+    background: transparent;
+    outline: none;
+}
+
+.textImgLink a:hover .text {
+    color: #ff0000;
+}
+
+.searchMotag {
+    margin: 4.17vw auto;
+    width: 20.83vw;
+    height: 8vh;
+    background: #0081c6;
+    display: flex;
+    border-radius: 0.63vw;
+    margin-bottom: 0;
+
+}
+
+.searchMotag:hover+.showListMotagim {
+    display: block;
+}
+
+.searchMotag p {
+    display: flex;
+    align-items: center;
+    color: white;
+    z-index: 3;
+    margin-left: 11.5vw;
+    font-size: 1.5vw;
+}
+
+.showListMotagim {
+    position: absolute;
+    border-radius: 0.63vw;
+    width: 20.83vw;
+   display: none;
+    padding: 0;
+    margin: 0;
+    border: 1.5px solid #0081c6;
+    background-color: white;
+    padding-top: 0.35vw;
+    margin-left: 38.5vw;
+    z-index: 5;
+}
+
+.showListMotagim li {
+    width: 100%;
+    background: white;
+    padding: 0.68vw 1.04vw 0.42vw;
+    border-bottom: 1.5px solid #0081c6;
+    color: #0081c6;
+}
+
+.showListMotagim li a {
+    display: block;
+    color: #0081c6;
+    font-size: 1.5vw;
+}
+
+.containerImgGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(18, 1fr);
+    gap: 0.5rem;
+}
+
+.textImgGrid img {
+    width: 100%;
+}
+
+.textImg {
+    text-align: center;
+    color: #A28636;
+    font-family: fbmetali, sans-serif;
+    font-size: 24.65px;
+}
+
+.textImgGrid {
+    position: relative;
+}
+
+.forTabel {
+    color: #0081c6;
+    font-size: 89.3%;
+    font-weight: 500;
+    font-family: 'fbmetali', sans-serif;
+}
+@media (max-width: 1200px){
+    .containerImgGrid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(30, 1fr);
+        gap: 0.5rem;
+    }
+    .containerImgLink {
+        flex-wrap: wrap;
+    }
+    .containerImgLink .textImgLink img {
+        height: 17vh;
+    }
+    .textImgLink .text {
+        font-size: 5vw;
+    }
+    .searchMotag{
+        width: 60vw;
+    }
+    .searchMotag p{
+font-size:3.5vw ;
+    }
+    .showListMotagim{
+        margin-left: 16.5vw;
+        width: 60vw;
+        }
+        .showListMotagim li a{
+            font-size: 3.5vw;
+        }
+}
+@media (max-width: 600px){
+    .containerImgGrid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(45, 1fr);
+        gap: 0.5rem;
+    }
+}

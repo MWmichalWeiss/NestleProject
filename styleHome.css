@@ -1,0 +1,152 @@
+
+.text {
+    color: #1d5390;
+    font-family: 'fbmetali', sans-serif;
+    font-size: 1.20vw;
+    height: 70vh;
+    background-color: #bce1f5;
+    
+}
+.textText{
+    width: 30%;
+    margin-left: 40vw;
+}
+.titleOfHomePage {
+    display: flex;
+    margin-left: 30vw;
+    flex-direction: column;
+    transform: rotate(3deg);
+    margin-bottom: 1.82vw;
+    align-items: flex-end;
+    width: 40vw;
+
+   
+}
+
+.titleOfHomePage h1 {
+    background: white;
+    padding: 0.42vw;
+    padding-top: 1.5vh;
+    display: block;
+    margin-bottom: 1.2%;
+    line-height: .85;
+    font-size: 164%;
+    font-weight: 400;
+}
+
+.titleOfHomePage h2 p {
+    background: white;
+    padding: 1vh;
+    display: block;
+    margin-bottom: 0.2%;
+    line-height: 0.85;
+    font-size: 130%;
+    margin-top: 0;
+}
+
+.imgHovr img {
+
+    width: 100%;
+    height: 100%;
+}
+.poin{
+    size: 100px;
+}
+.imgSherot{
+    width: 55.76vh;  
+    margin-right: 3.14vw;
+}
+.imgSherot img {
+    width: 100%;
+    margin-right: 4.14vw;
+}
+.textOfSherot {
+    width: 35vh;
+    margin-right: 3.14vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.sherot{
+    margin: 3vh;
+}
+.titleSherot {
+    font-size:5vh;
+    color: #0081c6;
+    line-height: .7;
+    margin-bottom:0;
+}
+.sherot .shrtotZarchanim{
+display: flex;
+justify-content:center;
+flex-direction: row-reverse;
+}
+.pratim{
+    display: flex;
+justify-content:center;
+flex-direction: row-reverse;
+}
+.taim{
+    display: flex;
+    justify-content:center;
+    flex-direction: row-reverse;
+    padding: 15vh;
+}
+.linkOfSherot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0081c6;
+    color: white;
+    border: 2px solid #0081c6;
+    height: 3.44vw;
+    min-width: 13.96vw;
+    padding: 0 1.82vw;
+    font-size: 4vh;
+    border-radius: 2vw;
+    letter-spacing: 0.05em;
+}
+.midelSherotText{
+    font-size: 3vh;
+}
+.linkOfSherot:hover{
+    background: white;
+    color:#0081c6 ;
+}
+
+@media (max-width: 600px)  {
+.text{
+    font-size: 3vw;
+    height: 58vh; 
+}
+.sherot .shrtotZarchanim, .pratim{
+    display: block;
+    justify-content:center;
+    }
+    .sherot .shrtotZarchanim{
+        justify-content:center;
+        }
+ .sherot{
+    margin: 0vh;
+ }
+ .imgSherot{
+    width: 100%;
+
+ }
+ .textOfSherot{
+width: 52vh;
+ }
+ .linkOfSherot{
+    height: 7.44vw;
+    width: 51vh;
+
+ }
+ .pratim{
+display:none ;
+ }
+ .taim {
+    display: block;
+    padding: 2vh;
+ }
+
+}

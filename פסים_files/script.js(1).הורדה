@@ -1,0 +1,501 @@
+document.addEventListener("DOMContentLoaded", function() { 
+	OverlayScrollbars(document.querySelectorAll(".list_scroll"), { });
+});
+
+
+const swal = Swal.mixin({
+  showCloseButton: true,
+  allowOutsideClick:false,
+	allowEscapeKey:false,
+	confirmButtonText: 'אישור',
+})
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-start',
+  showConfirmButton: false,
+  timer: 1300,
+  timerProgressBar: true,
+  onOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+function gtag_report_conversion_(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'Make_order_button', {
+      'send_to': 'AW-694098563/eRtFCLGcrtUBEIO1_MoC',
+      'event_callback': callback
+  });
+  return false;
+}
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'Add_To_Chart', {
+      'send_to': 'AW-694098563/wjiqCK-V8dQBEIO1_MoC',
+      'event_callback': callback
+  });
+  return false;
+}
+function noCityEvent(){
+	document.querySelector('.popup_city').classList.add('sendFormStep');
+	document.querySelector('.popup_city').classList.remove('selectCityStep');
+}
+angular.module('myapp').requires.push("angucomplete-alt");
+app.controller("storeCtrl", ['$scope','$rootScope','apiService',function($scope,$rootScope,apiService) { 
+	
+	$scope.citySelect=false;
+
+
+  	$scope.enterStore=function(city){ 
+	 
+		sessionStorage.setItem("froneri-store",'{"city":"'+city.title+'"}'); 
+		$scope.citySelect=true;
+
+		window.location='/חנות/';
+
+
+		if( window.innerWidth > 1024 ){
+			document.getElementById("menu_logo_a").focus();
+		}else{
+			document.getElementById("menu_logo_mobile_a").focus();
+		}
+
+
+	}
+	$rootScope.$on('_getCoupon',function(event, data) {
+	 
+		swal.fire({
+		  title: 'הזינו קוד קופון',
+		  input: 'text',  
+		  confirmButtonText: 'בדוק קופון',
+		  cancelButtonText: 'ביטול',
+			showCancelButton:true,
+		  showLoaderOnConfirm: true, 
+		  inputAttributes: {  
+			  placeholder:'קוד קופון'
+		  }, 
+		  inputValidator: (value) => {
+			return new Promise((resolve) => {
+			  if (value.length>1) {
+				resolve()
+			  } else {
+				resolve('נא להכניס את קוד הקופון')
+			  }
+			})},
+		  preConfirm: (coupon) => {  
+		   grecaptcha.ready(function() {
+						   grecaptcha.execute(csk,{action: 'coupon'}).then(function(token) { 
+							apiService.callApi(template_directory_uri+'/store/app/api/',{token:token,coupon:coupon },'coupon',function(response){    
+									 if(response.data.result=='error'){
+										 document.querySelector('.swal2-input').value='';
+										 Swal.showValidationMessage(response.data.message)	
+										 return false;
+									 }else{
+										swal.fire({
+											  title: response.data.message,
+												html:response.data.message2,
+												  confirmButtonText: 'ממש קופון',
+												  cancelButtonText: 'ביטול',
+													showCancelButton:true,
+												  showLoaderOnConfirm: true, 
+										}).then((result) => {
+													  if (result.value) {
+														   grecaptcha.execute(csk,{action: 'addcoupon'}).then(function(token) { 
+															apiService.callApi(template_directory_uri+'/store/app/api/',{token:token,coupon:coupon },'addcoupon',function(response){  
+																 if(response.data.result=='error'){
+																	 	swal.fire({
+																		  title: 'שים לב!',
+																			html:response.data.message,
+																			 confirmButtonText: 'אישור', 
+																	})
+																 }else{
+																	 
+																	 $scope.O.basket=response.data;
+																	$scope.O.opa=false  
+																				Toast.fire({
+																					position:'center',
+																					  icon: 'success',
+																					  title: 'המוצר הוסף לסל הקניות שלך',
+																					  timer: 1500
+																					})
+																 }
+															
+															})
+													})  }
+													})
+									 }
+								 
+								})
+						   })}) 
+			  return false;
+ 
+		  }
+		})
+  
+	}) 
+	
+	if( sessionStorage.getItem("froneri-store")) {
+		if(JSON.parse( sessionStorage.getItem("froneri-store")).city)$scope.citySelect=true;
+	}
+
+	$scope.popupOpeningEvent=function(){
+		document.querySelector('.popup_city').classList.remove('sendFormStep');
+		document.querySelector('.popup_city').classList.add('selectCityStep');
+	}
+	$scope.resetForm=function(formCurrentName){
+		
+		document.querySelector('.popup_city').classList.remove('on'); 
+		
+		setTimeout(function(){
+			$scope[formCurrentName].formSent=false;
+			document.querySelector('.popup_city').classList.remove('sendFormStep');
+		},2000)
+
+	}
+}]);
+ app.directive('deleteFromCart', ['apiService',
+	function (apiService){
+    return {
+        restrict: 'A',
+		scope:true,
+        link: function(scope, element, attrs){ 
+			element.bind('click',function(){
+					apiService.callApi(template_directory_uri+'/store/app/api/',{id:attrs.deleteFromCart},'store-delete-product',function(response){
+					    scope.O.basket=response.data; 
+									Toast.fire({
+										position:'center',
+										  icon: 'success',
+										  title: 'המוצר הוסר מסל הקניות',
+										  timer: 1500
+										}) 
+						})   
+				
+			}) 
+        }
+    }
+}
+]).directive('productButtons', ['apiService',
+	function (apiService){
+    return {
+        restrict: 'A',
+		scope:true,
+        link: function(scope, element, attrs){ 
+			scope.quantity=attrs.qnty?attrs.qnty:1; 
+			var btns=Array.from(element.find('button')); 
+			btns.forEach(function(e){
+				angular.element(e).bind('click',function(e){ 
+					 
+				var cls=e.target.className;
+						switch(false){
+							case cls.match('plus')==null:
+								scope.quantity++;
+							break;
+							case cls.match('minus')==null:   
+								if(scope.quantity>1)scope.quantity--;
+							break;  
+							case cls.match('addToCart')==null:   
+								addToCart(scope, attrs.tid,apiService,false);
+							break;  
+						}
+					if(attrs.updatecart){ 
+						addToCart(scope, attrs.tid,apiService,true) 
+					}
+					scope.$apply();
+				})
+			
+			})
+        }
+    }
+}
+]).directive("checkoutForm",["apiService","cfpLoadingBar","$location","$compile", function(apiService,cfpLoadingBar,$location,$compile) {
+  return {
+    restrict : "A",  
+	 link:function(scope, element, attrs){ 
+	 console.log(scope.O)
+		 	scope.clicked = false;  
+ 	 		scope.checkoutForm.form= {}; 
+		    scope.O.checkout={};
+			let obj = scope.O.checkout;
+		 	for (let key in obj){ 
+			   if(obj.hasOwnProperty(key)){
+				   scope.checkoutForm.form[key]=obj[key]; 
+			   }
+			} 
+			 scope.setDeliverys=function(){
+			 scope.deliveryOptions=[];
+				apiService.callApi(template_directory_uri+'/store/app/api/',{city:scope.checkoutForm.form.city},'get-dates',function(response){
+					
+					scope.deliveryOptions.push('בחרו זמן למשלוח');
+					for(var i=0;i<response.data.length;i++){
+							scope.deliveryOptions.push('יום '+response.data[i].day+', '+response.data[i].date+', בין השעות:'+response.data[i].hours)
+					} 	
+					scope.checkoutForm.form.delivery = scope.deliveryOptions[0];
+				})
+			 }
+			if( sessionStorage.getItem("froneri-store")) {
+				scope.checkoutForm.form=JSON.parse( sessionStorage.getItem("froneri-store"))
+				 scope.setDeliverys();	
+			}
+			 scope.$watch("checkoutForm.form", function(newVal,oldVal){
+				if(newVal==oldVal)return;
+			  	let obj =scope.checkoutForm.form ;
+				for (let key in obj){ 
+				   if(obj.hasOwnProperty(key)){
+					   scope.O.checkout[key]=obj[key]; 
+				   }
+				} 
+				if(typeof(Storage) !== "undefined") {
+					 sessionStorage.setItem("froneri-store", JSON.stringify(scope.O.checkout)); 
+				}
+			}, true);
+			 
+			scope.filterValue = function($event){ 
+					if(isNaN(String.fromCharCode($event.keyCode))&&String.fromCharCode($event.keyCode)!='-'){
+						$event.preventDefault();
+					}
+			}; 
+		 scope.checkoutForm.form.marketingmaterial=true
+		 scope.checkboxData={};
+		 scope.checkboxChange = function(name){
+			 console.log('Form',scope.checkoutForm.form[name])
+			 if(scope.checkoutForm.form[name]){
+				  scope.checkboxData[name]='מסומן';
+			 }else{
+				 scope.checkboxData[name]='לא מסומן';
+			 }
+		 }
+		 scope.checkboxChange('marketingmaterial');
+		 scope.checkboxChange('agree1');
+		 
+		 scope.killPayPopUp=function(){
+			document.getElementById("pay-overlay").remove();
+		 }
+			scope.checkFormx=function(){ 
+					if(scope.checkoutForm.form.delivery=='בחרו זמן למשלוח'){
+					   scope.checkoutForm.$valid=false;
+					   scope.checkoutForm.$invalid =true; 
+						swal.fire({
+							title: "שים לב",
+							text: 'יש למלא את כל שדות החובה',
+							icon: 'warning',
+						})
+						scope.deliveryError=true;
+					   return false;
+					   }
+				scope.deliveryError=false;
+			  		scope.clicked = true;  
+						 
+					if (scope.checkoutForm.$valid) { 
+			  			cfpLoadingBar.start();
+						/////////////scope.disableSend=true
+						grecaptcha.ready(function() {
+						   grecaptcha.execute(csk,{action: 'checkout'}).then(function(token) { 
+							   scope.checkoutForm.form.token=token;
+						   		 apiService.callApi(template_directory_uri+'/store/app/api/',scope.checkoutForm.form,'checkout',function(response){  
+									 if(response.data.result=='error'){
+										   	swal.fire({
+																		  title: 'שים לב!',
+																		icon: 'warning',
+																			html:response.data.message,
+																			 confirmButtonText: 'אישור', 
+																	})
+									 }else{  
+										 var over=document.createElement('div'); 
+										 var window=document.createElement('div'); 
+										 	 over.id="pay-overlay"; 
+										 var frame=document.createElement('iframe');
+										 	 frame.src=response.data.pay_url; 
+										 	 document.body.appendChild(over);  
+										 	 over.appendChild(window);  
+										    var template = '<button aria-label="סגור פופאפ" class="close_popup_product_btn close_btn" id="popTab1" ng-click="killPayPopUp()"></button>';
+											var linkFn = $compile(template);
+											var content = linkFn(scope);
+											angular.element(window).append(content); 
+										 	 window.appendChild(frame);
+										 
+										 
+										 		////window.insertAdjacentHTML('beforeend', );
+										 
+									 }
+								})
+						   })}) 
+					}else{
+						
+						document.forms[0].elements[0].focus();
+
+						swal.fire({
+							title: "שים לב",
+							text: 'יש למלא את כל שדות החובה',
+							icon: 'warning',
+						})
+					}
+			 }
+		 	
+		 
+	 }
+  };
+}]).directive('idCheck', function() {
+'use strict';
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attr, mCtrl) {
+		function ValidateID(str){
+		   var IDnum = String(str); 
+		   if (IDnum.length !== 9){
+			   mCtrl.$setValidity('charId', false);
+			   return str;
+		   }
+		   if (IDnum.length < 9){
+			   while(IDnum.length < 9)IDnum = '0' + IDnum;  
+		   }
+		   var mone = 0, incNum;
+		   for (var i=0; i < 9; i++)
+		   {
+			  incNum = Number(IDnum.charAt(i));
+			  incNum *= (i%2)+1;
+			  if (incNum > 9)incNum -= 9;
+			  mone += incNum;
+		   }
+		   (mone%10 === 0&&Number(IDnum)>0)?
+			  mCtrl.$setValidity('charId', true)
+		   :
+			  mCtrl.$setValidity('charId', false);
+        return str;
+		}
+      
+      mCtrl.$parsers.push(ValidateID);
+    }
+  };
+}).directive("leadFormStore",["$httpParamSerializerJQLike","apiService","$location", function($httpParamSerializerJQLike,apiService,$location) {
+  return {
+    restrict : "E", 
+	link:function(scope, element, attrs){
+		const formName=angular.element(element.find('form'))[0].getAttribute('name'); 
+		
+
+		scope[formName].formSent=false;
+		scope[formName].form={};
+		scope[formName].form['formName']=formName;
+		scope.filterValue = function($event){
+				if(isNaN(String.fromCharCode($event.keyCode))&&String.fromCharCode($event.keyCode)!='-'){
+					$event.preventDefault();
+				}
+		}; 
+
+		scope.clearForm=function(formCurrentName){
+			var fields=Array('full_name','phone','agree','spam','email','city');
+			  angular.forEach(scope[formCurrentName], function(value, key) {
+				if(fields.indexOf(key) > -1){
+					scope[formCurrentName].form[key]='';
+				} 
+			 });
+			scope[formCurrentName].$setPristine();
+
+		}
+
+		scope.checkForm=function(formCurrentName){
+
+
+			if (scope[formCurrentName].$valid) {
+//				scope.formSending=true;
+//				var searchObject = $location.search();
+				scope[formCurrentName].form.topic=4;
+				scope[formCurrentName].form.action='submit';
+				
+				scope[formCurrentName].form.agree=scope[formCurrentName].form.spam;
+ 				$formData=$httpParamSerializerJQLike(scope[formCurrentName].form); 
+//				console.log($formData);
+				document.querySelector('body').classList.add('loaderOn');
+				apiService.callApi(template_directory_uri+'/api/',$formData,'submit',function(response){
+					document.querySelector('body').classList.remove('loaderOn');
+					switch(response.data.result){
+
+						case 'ok':
+							scope[formCurrentName].formSent=true;
+							scope.clearForm(formCurrentName);
+							 fbq('init', '1575646829370830');
+  							 fbq('track', 'Details_Page');
+							 gtag('event', 'Details_Page', {
+								  'send_to': 'AW-694098563/EE7JCN7TgtUBEIO1_MoC',
+								  'aw_remarketing_only': true
+							  });
+						break;	
+
+
+					}
+
+				},null) 
+			}else{
+				angular.forEach(scope[formCurrentName].$error.required, function(field) { 
+					field.$setDirty();
+				})
+			}
+		 }
+		 	
+		 
+	 }
+  };
+}]).directive("gotoOrder",['$timeout', function($timeout) {
+  return {
+    restrict : "C", 
+	link:function(scope, element, attrs){
+		
+		element.bind('click',function(e){
+		fbq('track', 'Make_order_button');
+		gtag_report_conversion_();
+		
+		e.preventDefault();
+		$timeout(function(){
+			window.location=attrs.href;
+		},300);
+		})
+		
+		
+		
+		
+	}}}])
+function addToCart(scope,id,apiService,add){  
+
+	apiService.callApi(template_directory_uri+'/store/app/api/',{quantity:scope.quantity,id:id,add:add},'store-add-product',function(response){
+		if(response.data.result&&response.data.result=='error'){ 
+				swal.fire({
+					icon:'info',
+					title:'שימו לב',
+					  html: response.data.error, 
+				}) 
+				 return  
+		} 
+	   scope.O.basket=response.data;
+		if(!scope.is_mobile)scope.O.opo=true 
+		scope.O.opa=false  
+					Toast.fire({
+						position:'center',
+						  icon: 'success',
+						  title: 'המוצר הוסף לסל הקניות שלך',
+  						  timer: 1500
+						})
+		
+		gtag_report_conversion();
+		fbq('track', 'AddToCart');
+		scope.O.toggleCart=true;
+
+		document.getElementById("cart_popup").tabIndex = 1;
+		setTimeout(function(){document.getElementById("close_cart_popup").focus();},100);
+
+
+		if(response.data.notice){
+				swal.fire({
+					  title: response.data.notice, 
+				})  
+		}
+		}) 
+	if(!add)scope.quantity=1;
+} 

@@ -1,0 +1,575 @@
+.swiper_btnT1{
+
+	background: none;
+
+	border: 0;
+
+	background-repeat: no-repeat;
+
+	background-position: center;
+
+}
+
+.swiper_btnT1:focus {
+
+    outline: 1px white solid !important;
+
+}
+
+
+
+.swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet:focus {
+
+    outline: 1px white solid !important;
+
+}
+
+
+
+
+
+.section_swiper_type1 .swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet:focus {
+
+    outline: 1px #0081c6 solid !important;
+
+}
+
+
+
+/*.container_buttons .sort_btn:focus {
+
+    outline: 1px #0081c6 solid !important;
+
+}*/
+
+
+
+button:focus {
+
+    outline: 1px #0081c6 solid !important;
+
+}
+
+
+
+input:focus+label{
+
+	/*background:red;*/
+
+}
+
+
+
+.selectT1 .select_title:focus,
+
+.selectT1 li button:focus,
+
+.selectT1 li a:focus
+
+{
+
+    outline: 1px #000000 solid !important;
+
+    background: #0081c6 !important;
+
+    color: #fff !important;
+
+}
+
+
+
+
+
+.close_btn:focus,
+
+.labelT1:focus{
+
+    outline: 1px #000000 solid !important;
+
+}
+
+
+
+/*[aria-hidden='true'] { pointer-events: none;}*/
+
+
+
+
+
+.send_file .error_msg {
+
+    margin: 0;
+
+    padding: 0;
+
+    display: block;
+
+    width: auto;
+
+    height: auto;
+
+}
+
+
+
+
+
+.userway-s1 .sortT2_container select{
+
+    display: block;
+
+
+
+}
+
+
+
+.userway-s1 .sortT2_container .link_listT2{
+
+    display: none;
+
+    visibility: hidden;
+
+}
+
+
+
+
+
+.userway-s1 .page-template-template-contact .element_wrap select{
+
+    display: block;
+
+}
+
+
+
+.userway-s1 .page-template-template-contact .selectT1{
+
+    display: none;
+
+    visibility: hidden;
+
+}
+
+
+
+
+
+
+
+.form_container .send_msg {
+
+    top: 0;
+
+    bottom: 0;
+
+    left: 0;
+
+    right: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    background: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    animation: animType1 650ms;
+
+    animation-fill-mode: forwards;
+
+    animation-timing-function: ease-out;
+
+    font-size: 125%;
+
+    z-index: 3;
+
+    position: fixed;
+
+    top: 0;
+
+    position: fixed !important;
+
+    border: 5px #0081c6 solid!important ;
+
+    width: 35vw !important;
+
+    left: 0 !important;
+
+    right: 0 !important;
+
+    margin: 0 auto !important;
+
+    height: 25vw !important;
+
+    top: 9vw !important;
+
+    border-radius: 15px !important;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    font-size: 2vw !important;
+
+    display: block !important;
+
+    z-index: 9 !important;
+
+    transition: .3s all;
+
+}
+
+.form_container .send_msg.enter{
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+
+.form_container .send_msg p{
+
+    width: 100%;
+
+    font-weight: normal;
+
+    margin-top: 8vw;
+
+}
+
+
+
+.form_container .send_msg .menu_logo{
+
+    margin: 0 auto;
+
+    margin-top: 2vw;
+
+    width: 6vw;
+
+}
+
+
+
+.form_container .send_msg .menu_logo img{
+
+    width: auto;
+
+    max-width: 100%;
+
+    height: auto;
+
+    display: block;
+
+    margin: 0 auto;
+
+}
+
+
+
+
+
+.form_container .send_msg .close_btn {
+
+    margin: 1vw;
+
+}
+
+
+
+@media(max-width: 1024px){
+
+    .form_container .send_msg {
+
+        width: 95vw !important;
+
+        top: 35vw !important;
+
+        height: 73vw !important;
+
+    }
+
+    .form_container .send_msg .close_btn {
+
+        margin: 4vw;
+
+    }
+
+    .form_container .send_msg {
+
+        height: 65vw;
+
+    }
+
+    .form_container .send_msg .menu_logo {
+
+        width: 25vw;
+
+    }
+
+    .form_container .send_msg p {
+
+        margin-top: 8vw;
+
+        font-size: 10vw;
+
+        padding: 8vw 10vw 3vw;
+
+    }
+
+}
+
+
+
+
+
+
+
+.corona_message {
+
+    top: 0;
+
+    bottom: 0;
+
+    left: 0;
+
+    right: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    background: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    animation: animType1 650ms;
+
+    animation-fill-mode: forwards;
+
+    animation-timing-function: ease-out;
+
+    font-size: 125%;
+
+    z-index: 3;
+
+    position: fixed;
+
+    top: 0;
+
+    position: fixed !important;
+
+    border: 5px #0081c6 solid!important;
+
+    width: 35vw !important;
+
+    left: 0 !important;
+
+    right: 0 !important;
+
+    margin: 0 auto !important;
+
+    height: 25vw !important;
+
+    top: 9vw !important;
+
+    border-radius: 15px !important;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    font-size: 2vw !important;
+
+    display: block !important;
+
+    z-index: 9 !important;
+
+    transition: .3s all;
+
+    bottom: auto;
+
+    height: auto !important;
+
+    top: 3vw !important;
+
+    z-index: 999 !important;
+
+    font-weight: 500;
+
+    color: #8c8c8c;
+
+    line-height: .8;
+
+/*    opacity: 1;
+
+    visibility: visible;*/
+
+    padding: 7vw 0 3vw;
+
+}
+
+.corona_message.enter{
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+
+.corona_message p {
+
+    font-weight: normal;
+
+    margin-top: 8vw;
+
+    color: #447cba;
+
+    text-align: center;
+
+    font-size: 1.5vw;
+
+    padding: 0;
+
+    width: 92%;
+
+    margin: 0 auto;
+
+    margin-bottom: 2vw;
+
+    line-height: 1.1;
+
+}
+
+
+
+.corona_message p img{
+
+    width: 1.2vw;
+
+    position: relative;
+
+    top: -.1vw;
+
+}
+
+
+
+
+
+.corona_message .menu_logo{
+
+    margin: 0 auto;
+
+    margin-top: 2vw;
+
+    width: 6vw;
+
+}
+
+
+
+.corona_message .menu_logo img{
+
+    width: auto;
+
+    max-width: 100%;
+
+    height: auto;
+
+    display: block;
+
+    margin: 0 auto;
+
+}
+
+
+
+
+
+.corona_message .close_btn {
+
+    margin: 1vw;
+
+    position: absolute !important;
+
+    top: 0;
+
+}
+
+
+
+@media(max-width: 1024px){
+
+    .corona_message {
+
+        width: 95vw !important;
+
+        top: 10vw !important;
+
+        height: auto !important;
+
+        padding: 15vw 0;
+
+    }
+
+    .corona_message .close_btn {
+
+        margin: 4vw;
+
+    }
+
+    .corona_message {
+
+        height: 65vw;
+
+    }
+
+    .corona_message .menu_logo {
+
+        width: 25vw;
+
+    }
+
+    .corona_message p {
+
+        margin-top: 0;
+
+        font-size: 5vw;
+
+        padding: 0vw 10vw 0vw;
+
+        margin-bottom: 5vw;
+
+        width: 100%;
+
+    }
+
+    .corona_message p img{
+
+        width: 4.2vw;
+
+    }
+
+    .corona_message p br{
+
+        display: none;
+
+    }
+
+}

@@ -1,0 +1,650 @@
+if ('NodeList' in window && !NodeList.prototype.forEach) {
+    console.info('polyfill for IE11');
+	var body = document.getElementsByTagName("body")[0];
+	body.classList.add("ie");
+    NodeList.prototype.forEach = function (callback, thisArg) {
+      thisArg = thisArg || window;
+      for (var i = 0; i < this.length; i++) {
+        callback.call(thisArg, this[i], i, this);
+      }
+    };
+  }else{
+	var body = document.getElementsByTagName("body")[0];
+	body.classList.add("noie");
+  }
+
+
+var window_width,window_height = 0;
+document.addEventListener("DOMContentLoaded", function() {
+	if (lazyLoadInstance) {
+		lazyLoadInstance.update();
+	}	
+	window_width = document.body.clientWidth;
+	window_height = document.body.clientHeight;
+
+	document.querySelectorAll('.swiper_brands').forEach(function(item,index){
+		if(document.querySelectorAll('.swiper_brands')[index] !== undefined){
+			item.parentNode.classList.add('active');
+			new Swiper('.swiper_brands', {
+				slidesPerView:11,
+				loop:true,
+				  a11y: {
+					prevSlideMessage: 'הצג מותג קודם',
+					nextSlideMessage: 'הצג מותג הבא',
+				  },
+				  navigation: {
+					nextEl: '.swiper_brands_btn_next',
+					prevEl: '.swiper_brands_btn_prev',
+				  },
+				  breakpoints: {
+					1024: {
+					  slidesPerView: 3,
+					}
+				  }
+			});	
+		}
+	});
+	document.querySelectorAll('.swiper_type1').forEach(function(item,index){
+		if(document.querySelectorAll('.swiper_type1')[index].querySelectorAll(".swiper-slide").length>1){
+			item.parentNode.classList.add('active');
+			new Swiper('.swiper_type1', {
+				slidesPerView:1,
+//				preloadImages: false,
+//				lazy: true,
+				effect:'fade',
+				  fadeEffect: {
+					crossFade: true
+				  },
+				  navigation: {
+					nextEl: '.swiper_type1_btn_next',
+					prevEl: '.swiper_type1_btn_prev',
+				  },
+				  a11y: {
+					prevSlideMessage: 'קודם',
+					nextSlideMessage: 'הבא',
+				  },
+				  pagination: {
+					el: '.swiper_type1_pagination',
+					type: 'bullets',
+					renderBullet: function (index, className) {
+					  return '<button aria-label="עבור לסיידר '+(index + 1)+'" class="' + className + '"></button>';
+					},
+					clickable:true
+				  },
+			});	
+		}
+	});		
+	var porcent1 = true;
+	var porcent2 = true;
+	var porcent3 = true;
+	window.onscroll = function(ev) {
+		var porcent = window.scrollY/(document.body.offsetHeight - window.innerHeight );
+		if(porcent > 0.2 && porcent1){
+			dataLayer.push({'Category': 'Page Scroll' ,'Action': current_page ,'Label': '20%' ,'event':'auto_event'});
+			porcent1 = false;
+		}
+		if(porcent > 0.6 && porcent2){
+			dataLayer.push({'Category': 'Page Scroll' ,'Action': current_page ,'Label': '60%' ,'event':'auto_event'});
+			porcent2 = false;
+		}
+		if(porcent > 0.8 && porcent3){
+			dataLayer.push({'Category': 'Page Scroll' ,'Action': current_page ,'Label': '80%' ,'event':'auto_event'});
+			porcent3 = false;
+		}
+	};
+
+	
+});
+
+
+
+function mediaClick(name){
+	dataLayer.push({'Category': 'Media' ,'Action': name ,'Label': current_page ,'event':'auto_event'});
+}
+
+function changeBrandMobile(el){
+	dataLayer.push({'Category': 'Product Filter' ,'Action': el.options[el.selectedIndex].text ,'Label': current_page ,'event':'auto_event'});
+	setTimeout(function(){ location = el.value; }, 300);
+}
+
+
+var app = angular.module('myapp', ['angular-inview','flow','angular-loading-bar','cfp.loadingBar'])
+.config(['flowFactoryProvider', function (flowFactoryProvider) {
+    flowFactoryProvider.defaults = {
+        target: template_directory_uri+'/api/index.php',
+        permanentErrors:[404, 500, 501],
+		singleFile: true,
+		testChunks: false,
+		maxChunkRetries: 0,
+		query: {
+			action:'upload'
+		}
+    };
+	
+}]).config(['$httpProvider','$locationProvider', '$locationProvider',function($httpProvider,$locationProvider, $locationProvider) {  
+	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+	 $locationProvider.html5Mode({
+	  enabled: true,
+	  requireBase: false,
+		 rewriteLinks :false
+	});
+ 
+}])
+.service('apiService', ['$http', function($http) { 
+		this.callApi = function (api,data,action,callBack) {
+				$http({  
+					  method  : 'POST',
+					  url     : api, 
+  					  cache: false,
+					  data    : data,  
+					  headers : { 'Content-Type': 'application/x-www-form-urlencoded' ,"action": action}
+				}).then(function mySucces(response) { 
+					if(callBack)callBack(response);
+				}, function myError(response) {
+
+			});   
+		}   
+}]).service('windowSize',['$window', function($window){
+	this.isMobile=function(){
+		var w = angular.element($window);
+		if(w[0].innerWidth<=1024)return true;
+		return false; 
+ 	}
+}]).controller('myCtrl', ['$scope', '$http','windowSize','apiService','$timeout','$location','$rootScope', function ($scope, $http,windowSize,apiService,$timeout,$location,$rootScope) {
+	   $scope.enterPopUp=localStorage.getItem('popup')?false:true; 
+		$scope.O={basket:[],toggleCart:false}; 
+		
+			apiService.callApi(template_directory_uri+'/store/app/api/',{d:0},'basket',function (response) {
+				
+				$scope.O.basket=response.data 
+			})
+
+		function gtag_report_conversion(url) {
+		  var callback = function () {
+		    if (typeof(url) != 'undefined') {
+		      window.location = url;
+		    }
+		  };
+		  gtag('event', 'conversion', {
+		      'send_to': 'AW-694098563/6DmKCN3v1dYBEIO1_MoC',
+		      'event_callback': callback
+		  });
+		  return false;
+		}
+
+		$scope.lpEvent = function(postID)
+		{
+			if(postID=='4635'){
+				fbq('trackCustom', 'Coupon');
+				gtag_report_conversion();
+			}
+		}
+	
+		$scope.closePopUp=function(redir){
+			
+			localStorage.setItem('popup',true);
+			if(redir)window.location='/חנות/';
+			$scope.enterPopUp=false;
+			return false;
+		}
+	
+		  function upload($files) {}
+		$scope.getCoupon=function(){
+			console.log('ss')
+			$rootScope.$broadcast('_getCoupon');
+		}
+		$scope.scrollDisable=false;
+	 	$scope.productSelect=[];
+		$scope.selectProduct=function(value,name){
+			$scope.productSelect=[];
+			$scope.productSelect.push(value);
+			dataLayer.push({'Category': 'Product Filter' ,'Action': 'Filter By Type' ,'Label': name ,'event':'auto_event'});
+		}
+		$scope.checkProduct=function(value){
+			if(!$scope.productSelect.length){
+				return true;
+			}else{
+//				const found = $scope.productSelect.every(elem => value.indexOf(elem) > -1);
+				var found = $scope.productSelect.every(function (elem) {
+				  return value.indexOf(elem) > -1;
+				});
+				if(found)return true;
+			}
+			 
+		}
+
+
+		_iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
+
+		if( _iOSDevice ){
+
+			angular.element(document.querySelector('.corona_message')).addClass('enter');
+
+		}else{
+
+			setTimeout(function(){
+				if( localStorage.getItem('noMoreCoronaVirus') === null ){
+					angular.element(document.querySelector('.corona_message')).addClass('enter');
+				}
+			},1500);
+
+		}
+
+		$scope.killCoronaVirus = function(){
+			angular.element(document.querySelector('.corona_message')).removeClass('enter');
+			localStorage.setItem('noMoreCoronaVirus',true);
+			document.querySelector('.corona_message').remove();
+
+
+		}
+
+
+		if( localStorage.getItem('noMoreCoronaVirus') !== null ){
+			if(document.querySelector('.corona_message'))document.querySelector('.corona_message').remove();
+		}
+		
+		$scope.productPopup='';
+		$scope.productPopupData=''; 
+		$scope.showProductData=function(e){
+			
+			var data = 'action=product-data&id='+e.target.id;
+			$scope.newData = apiService.callApi(template_directory_uri+'/api/index.php',data,'product-data',function (response) {
+				$scope.productPopup=template_directory_uri+'/templates/product-popup.php';
+				$scope.productPopupData=response.data; 
+//				$scope.scrollDisable=true;
+
+				
+				$scope.activeLabel=[];
+				$scope.activeLabel[0]=true;
+				$scope.dataCircles= $scope.productPopupData.values.labels[0].label_circles;
+				$scope.changeActiveLabel = function(idx){
+
+					$scope.activeLabel[0]=false;
+					if($scope.opendLabel&&$scope.opendLabel!=idx)$scope.activeLabel[$scope.opendLabel]=false;
+					if($scope.opendLabel != idx){
+						$scope.opendLabel=idx;
+						$scope.activeLabel[idx]= !$scope.activeLabel[idx]; 										
+					}
+					$scope.dataCircles= $scope.productPopupData.values.labels[$scope.opendLabel].label_circles;
+
+
+
+				}	
+				dataLayer.push({'Category': 'Nutritional Values Table' ,'Action': $scope.productPopupData.title ,'Label': current_page ,'event':'auto_event'});
+				
+
+			});	
+		}
+
+		$scope.$on('$includeContentLoaded', function () {
+			var elemm = document.getElementById('popTab1');
+			if(elemm != null){
+
+				elemm.focus();
+
+			}else{
+				console.log('nullllllllllll')	
+			}
+			
+		});
+		
+		$scope.showPopup= false;
+		$scope.jobPopupData=''; 
+		$scope.showJobData=function(e){
+			var data = 'action=job-data&id='+e.target.id;
+			$scope.newData = apiService.callApi(template_directory_uri+'/api/index.php',data,'job-data',function (response) {
+				$scope.showPopup= true;
+				var result = response.data;
+				result.id = e.target.id;
+				$scope.jobPopupData=result;
+				dataLayer.push({'Category': 'Career' ,'Action':  result.title ,'Label': 'Pop Up' ,'event':'auto_event'});
+//				$scope.scrollDisable=true;
+
+				var elemm = document.getElementById('close_popup_job_btn');
+				if(elemm != null){
+
+					setTimeout(function(){elemm.focus();},100);
+
+				}else{
+					console.log('nullllllllllll')	
+				}
+
+			});	
+		}	
+	
+		$scope.killPopup=function(){
+			$scope.productPopupData=''; 
+			$scope.productPopup='';
+			$scope.jobPopupData='';
+			$scope.showPopup= false;
+			$scope.opendLabel='';
+		};
+		
+		
+	
+		$scope.uploaded=[];
+		$scope.fileUploaded=function(msg,field,f){
+			$scope.uploaded[field]=f.files[0].file.name;
+			msg=JSON.parse(msg);
+			if($scope.cvForm != undefined){
+				if(typeof $scope.cvForm.form  !='object')$scope.cvForm.form={};
+				$scope.cvForm.form[field]=msg.file_name;				
+			}
+			if($scope.contactForm != undefined){
+				if(typeof $scope.contactForm.form  !='object')$scope.contactForm.form={};
+				$scope.contactForm.form[field]=msg.file_name;				
+			}
+		}
+		$scope.removeUpload=function(field){ 
+			if($scope.cvForm != undefined){delete $scope.cvForm.form[field];}
+			if($scope.contactForm != undefined){delete $scope.contactForm.form[field];}
+			delete $scope.uploaded[field];
+		}
+		
+	if(document.getElementsByClassName('contact_page').length>0){$scope.brandsArray = brands_array;}
+	function indexMatchingText(ele, text) {
+		for (var i=0; i<ele.length;i++) {
+			if (ele[i].childNodes[0].nodeValue === text){
+				return i;
+			}
+		}
+		return undefined;
+	}
+	$scope.$watch("contactForm.form.brand", function(newValue, oldValue,scope){
+		if(newValue == ''){return false}
+		if(newValue != oldValue ){
+			var index=indexMatchingText(document.getElementById('brand'),newValue)-1;
+			$scope.types=$scope.brandsArray[index].types;
+		}
+	});
+	$scope.changeBrand = function(obj){
+		var target = angular.element(obj.currentTarget)[0];
+		dataLayer.push({'Category': 'Product Filter' ,'Action': 'Filter By Brand' ,'Label': target.text ,'event':'auto_event'});
+	}	
+	
+}])
+.filter('trustHtml',function($sce){
+  return function(html){
+    return $sce.trustAsHtml(html)
+  }
+}).directive('leadForm',['$httpParamSerializerJQLike','apiService','$location','$window','$timeout',function ($httpParamSerializerJQLike,apiService,$location,$window,sharedData,SweetAlert,$timeout)
+    {
+        return {
+            restrict: 'E', 
+            link: function (scope, elm, attrs)
+            { 
+				var formName=angular.element(elm.find('form'))[0].getAttribute('name'); 
+				scope[formName].formSent=false;
+				//scope[formName].form={};
+				
+				if(scope[formName].form)scope[formName].form.agree=true; 
+				scope.filterValue = function($event){
+						if(isNaN(String.fromCharCode($event.keyCode))&&String.fromCharCode($event.keyCode)!='-'){
+							$event.preventDefault();
+						}
+				};
+
+				scope.close_popup = function(){
+					angular.element(document.querySelector('.send_msg')).removeClass('enter');
+				}
+	
+				scope.changeTopic = function(topic){
+					switch (topic) {
+						case '1':
+							dataLayer.push({'Category': 'Form' ,'Action':'יש לי שאלה' ,'Label': 'Click' ,'event':'auto_event'});
+							break;
+						case '2':
+							dataLayer.push({'Category': 'Form' ,'Action':'אני לא מרוצה' ,'Label': 'Click' ,'event':'auto_event'});
+							break;
+						case '3':
+							dataLayer.push({'Category': 'Form' ,'Action':'מעוניין להיות לקוח' ,'Label': 'Click' ,'event':'auto_event'});
+							break;
+						default:
+
+					}					
+				}			
+				var searchObject = $location.search(); 
+				scope.validRecipe=false;
+				scope.checkForm=function(formName){ 
+					if(formName == 'cvForm'){
+						if(scope.uploaded['file']== undefined){
+							scope.afterClick=true;
+							setTimeout(function(){ 
+							document.getElementById("uploadFile").focus();
+							}, 1000);						
+							return false;
+	
+
+						}else{
+							scope.afterClick=false;
+							scope.move=true;
+						}	
+						scope['cvForm'].form['position_number']=angular.element(document.querySelector('input[name=position_number]')).val();
+					}
+
+					if(formName == 'contactForm' ){
+						document.getElementById("full_name").focus();
+					}
+
+					
+					if (scope[formName].$valid || scope.move) {
+						
+						////////////////////////////
+					
+
+//						if( scope['uploadForm'].form['recipe_file']== undefined && scope['uploadForm'].form['recipe']==undefined){
+//							return false
+//						}					
+						////////////////////////////
+						
+						scope.formSending=true;
+							$formData=$httpParamSerializerJQLike(scope[formName].form)+'&'+$httpParamSerializerJQLike(searchObject); 
+							apiService.callApi(template_directory_uri+'/api/index.php',$formData+'&formName='+formName+'&action=submit','submit',function(response){
+									switch(response.data.result){
+											
+										case 'ok':
+											dataLayer.push({'Category': 'Lead' ,'Action':formName ,'Label': 'Sent' ,'event':'auto_event'});
+											if(formName == 'cvForm'){
+												dataLayer.push({'Category': 'Career' ,'Action':  scope.jobPopupData.title ,'Label': 'Sent' ,'event':'auto_event'});
+											}
+											scope[formName].formSent=true;
+											scope[formName].thanks=response.data.thankyou; 
+											clearForm(formName);	
+											scope.$apply();
+											document.getElementById('close_popup').focus();
+
+											setTimeout(function(){
+												angular.element(document.querySelector('.thanks')).addClass('fadeOut');
+												scope.$apply();
+												document.querySelector(".btnT1").disabled = true;
+
+											},3000)
+											// setTimeout(function(){ 
+											//     window.scrollTo(0,0);
+											//     setTimeout(function(){
+											//     		clearForm(formName);
+											//     		scope.$apply();
+											//     	    scope[formName].formSent=false; 
+											//     	    angular.element(document.querySelector('.thanks')).removeClass('fadeOut');
+											//     	    angular.element(document.querySelector('.send_msg')).removeClass('enter');
+											//     },100);
+											//     // location.reload();
+ 
+											// },3500)
+										break;	
+											
+										case 'popup':
+											
+											 $.featherlight({iframe: response.data.pay_url, closeOnClick: false,closeOnEsc:false,afterClose:function(){
+												  
+											 } }); 
+											
+										break;	
+											
+											
+									}
+									function clearForm(formName){
+
+//										if(formName == 'cvForm'){
+											var files=Array('file');
+											  angular.forEach(files, function(value, key) { 
+												  scope.removeUpload(value);
+											 });											
+//										}
+
+
+											var fields=Array('full_name','phone','email','business_name','business_type','street_name','house_number','city','zip_code','message','brand','product_type','product_name','code','store','store_address','date','time','product_label','topic','agree','spam');
+											  angular.forEach(scope[formName], function(value, key) { 
+												if(fields.indexOf(key) > -1){
+													scope[formName].form[key]='';
+												} 
+											 });
+											
+											scope[formName].$setPristine();
+									}
+											
+								 },null) 
+					}else{
+
+						angular.forEach(scope[formName].$error.required, function(field) { 
+							field.$setDirty();
+						})
+					}
+				}
+				   
+            }
+        };
+}])
+
+
+	var check =  document.querySelector('.post-type-archive-products');
+
+	var check2 =  document.querySelector('.tax-brands_category');
+
+	var check3 =  document.querySelector('.post-type-archive-shop');
+
+
+	if ( 
+		(typeof(check) != 'undefined' && check != null) ||
+		(typeof(check2) != 'undefined' && check2 != null) ||
+		(typeof(check3) != 'undefined' && check3 != null)
+		 ){
+
+		// place this line in the dialog show function - to only add the listener when the dialog is shown
+		window.addEventListener('keydown', handleKey);
+
+		// uncomment and place this in the dialog close/hide function to remove the listener when dialog is closed/hidden
+		// window.removeEventListener('keydown', handleKey);
+
+		function handleKey(e) {
+
+		    if (e.keyCode === 9) {
+		        let focusable = document.querySelector('#popup').querySelectorAll('input,button,select,textarea');
+		        
+
+		        if (focusable.length) {
+		            let first = focusable[0];
+		            let last = focusable[focusable.length - 1];
+		            let shift = e.shiftKey;
+
+
+
+		            if (shift) {
+		                if (e.target === first) { // shift-tab pressed on first input in dialog
+		                    last.focus();
+		                    e.preventDefault();
+		                }
+		            } else {
+		                if (e.target === last) { // tab pressed on last input in dialog
+		                    first.focus();
+		                    e.preventDefault();
+		                }
+
+		            }
+		        }
+		    }
+		}
+
+	}
+
+
+
+
+
+
+
+	var popup_popup_job =  document.querySelector('.post-type-archive-careers');
+
+	if (typeof(popup_popup_job) != 'undefined' && popup_popup_job != null){
+		// place this line in the dialog show function - to only add the listener when the dialog is shown
+		window.addEventListener('keydown', popup_job);
+
+		// uncomment and place this in the dialog close/hide function to remove the listener when dialog is closed/hidden
+		// window.removeEventListener('keydown', handleKey);
+
+		function popup_job(e) {
+		    if (e.keyCode === 9) {
+		        let focusable = document.querySelector('#popup_job').querySelectorAll('input,button,select,textarea');
+		        if (focusable.length) {
+		            let first = focusable[0];
+		            let last = focusable[focusable.length - 2];
+		            let shift = e.shiftKey;
+		            if (shift) {
+		                if (e.target === first) { // shift-tab pressed on first input in dialog
+		                    last.focus();
+		                    e.preventDefault();
+		                }
+		            } else {
+		                if (e.target === last) { // tab pressed on last input in dialog
+		                    first.focus();
+		                    e.preventDefault();
+		                }
+		            }
+		        }
+		    }
+		}
+	}
+
+
+
+	var popup_cart_popup =  document.querySelector('.single-shop');
+
+	if (typeof(popup_cart_popup) != 'undefined' && popup_cart_popup != null){
+		// place this line in the dialog show function - to only add the listener when the dialog is shown
+		
+
+		
+		window.addEventListener('keydown', cart_popup);
+
+
+		// uncomment and place this in the dialog close/hide function to remove the listener when dialog is closed/hidden
+		// window.removeEventListener('keydown', handleKey);
+
+		function cart_popup(e) {
+
+		    if (e.keyCode === 9) {
+		        let focusable = document.querySelector('#cart_popup').querySelectorAll('input,button,select,textarea');
+		        
+
+		        console.log( document.querySelector('#cart_popup').tabIndex );
+
+
+		        if (focusable.length) {
+		            let first = focusable[0];
+		            let last = focusable[focusable.length - 2];
+		            let shift = e.shiftKey;
+		            if (shift) {
+		                if (e.target === first) { // shift-tab pressed on first input in dialog
+		                    last.focus();
+		                    e.preventDefault();
+		                }
+		            } else {
+		                if (e.target === last) { // tab pressed on last input in dialog
+		                    first.focus();
+		                    e.preventDefault();
+		                }
+		            }
+		        }
+		    }
+		}
+	}

@@ -1,0 +1,24 @@
+.orderMasseg{
+   border: 3px solid #0081c6; 
+   border-radius: 15px;
+   height: 65vh;
+   width: 48vw;
+   margin-left: 28vw !important;
+   margin: 5vw;
+}
+.orderMasseg p{
+font-size: 4vw;
+text-align: center;
+}
+.orderMasseg img{
+    margin: 8vh;
+   width: 10vw;
+}
+@media (max-width: 1200px){
+   .orderMasseg{ height: 40vh;}
+
+}
+@media (max-width: 600px){
+   .orderMasseg{ height: 30vh;}
+
+}
